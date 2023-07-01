@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>君子</title>
+  <style type="text/css">
+    th {
+      background-color: lightskyblue;
+      color: #255e95
+    }
+  </style>
+</head>
+
+<body>
+  <script>
+    var times;
+    var mark=600;
+    if (localStorage.getItem("times") == null)
+      times = -1;
+    else times = localStorage.getItem("times");
+    var startTime = prompt("开始时间(重复输入将标记为破戒,否则请取消)(E.g. 2023.07.01)");
+    if (startTime != null) {
+      localStorage.setItem("startTime", startTime);
+      ++times;
+    }
+    else startTime = localStorage.getItem("startTime");
+
+    var startDate = new Date();
+    startDate.setFullYear(Number(startTime.substring(0, 4)), Number(startTime.substring(5, 7)) - 1, Number(startTime.substring(8, 10)));
+    var nowDate = new Date();
+    var keepTime = parseInt((nowDate - startDate) / 86400000);
+    localStorage.setItem("keepTime", keepTime);
+  </script>
+  <h3>
+    <script>
+      document.write("上次破戒: ")
+      document.write(startTime);
+    </script>
+  </h3>
+
+  <h1>
+    <script>
+      document.write("持戒天数: ");
+      document.write(keepTime);
+    </script>
+  </h1>
+  <img src="https://user-images.githubusercontent.com/88875870/250272436-1a422b08-1bac-4237-bc13-331ea5edb95a.jpg" width="150" height="150">
+  <br>
+
+  <script>
+      // if (localStorage.getItem("mark") == null) {
+      //   mark = 80;
+      //   localStorage.setItem("mark", mark);
+      // }
+      // else mark = localStorage.getItem("mark");
+      var Achievement;
+      mark = mark - 5 * times + keepTime;
+      if(mark>=0&&mark<200)mark-=0*keepTime,Achievement="恶人";
+      if(mark>=200&&mark<400)mark-=0.3*keepTime,Achievement="小人";
+      if(mark>=400&&mark<600)mark-=0.5*keepTime,Achievement="正人";
+      if(mark>=600&&mark<800)mark-=0.7*keepTime,Achievement="善人";
+      if(mark>=800&&mark<900)mark-=0.8*keepTime,Achievement="君子";
+      if(mark>=900&&mark<950)mark-=0.9*keepTime,Achievement="活佛";
+      if(mark>=950&&mark<1000)mark-=0.95*keepTime,Achievement="不朽";
+      if(mark>=1000)mark=1000,Achievement="圣人";
+      mark/=10;
+      document.write("君子值 ");
+      document.write(mark.toString());
+      document.write("%");
+      document.write(Achievement);
+    
+
+  </script>
+
+  <p id="hitokoto">
+    <a href="#" id="hitokoto_text">:D 获取中...</a>
+  </p>
+  <script>
+    fetch('https://v1.hitokoto.cn')
+      .then(response => response.json())
+      .then(data => {
+        const hitokoto = document.querySelector('#hitokoto_text')
+        hitokoto.href = `https://hitokoto.cn/?uuid=${data.uuid}`
+        hitokoto.innerText = data.hitokoto
+      })
+      .catch(console.error)
+  </script>
+
+  <a href="https://github.com/YingHN/JunZi/issues">阅读</a>
+
+  <!-- <a href="./Record.html">记录</a> -->
+
+
+</body>
+
+</html>
